@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://code.alibabatech.com/schema/dubbo
+       http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+	<!--<dubbo:annotation/>-->
+	<!-- 提供方应用信息，用于计算依赖关系 -->
+	<dubbo:application name="activiti" logger="slf4j" />
+	<!-- 用dubbo协议在20888端口暴露服务,默认端口20880, port=-1, 当默认端口被占用，在20880端口自增1,将序列化实现设置为kryo -->
+	<dubbo:protocol name="dubbo" port="-1"/>
+	<!-- 使用zookeeper注册中心暴露服务地址 -->
+	<!--<dubbo:registry address="zookeeper://192.168.1.114:2181"/>-->
+	<dubbo:registry address="${dubbo.url}" register="true"/>
+	
+	<!-- activiti的暴露接口 -->
+	<dubbo:service interface="com.yoland.activiti.service.ActivitiGroupAndUserService" ref="activitiGroupAndUserService" timeout="${dubbo.timeout}">
+	</dubbo:service>
+	<dubbo:service interface="com.yoland.activiti.service.ActivitiTaskManageService" ref="activitiTaskManageService" timeout="${dubbo.timeout}">
+	</dubbo:service>
+
+	<!-- activiti具体的实现bean -->
+	<bean id="activitiGroupAndUserService" class="com.yoland.activiti.service.impl.ActivitiGroupAndUserServiceImpl"/>
+	<bean id="activitiTaskManageService" class="com.yoland.activiti.service.impl.ActivitiTaskManageServiceImpl"/>
+
+</beans>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
+
+    <!-- 异常捕获AOP -->
+    <bean id="exceptionAspect" class="com.yoland.framework.aspect.ExceptionAspect">
+        <property name="systemCode" value="101" />
+    </bean>
+    <aop:config>
+        <!-- 对运行时异常的集中处理 -->
+        <aop:aspect id="exceptionAop" ref="exceptionAspect" order="0">
+            <aop:pointcut id="exceptionPointCut"
+                          expression="execution(* com.yoland.activiti.service.*.*.*(..))"/>
+            <aop:around pointcut-ref="exceptionPointCut" method="deal"/>
+        </aop:aspect>
+    </aop:config>
+
+</beans>

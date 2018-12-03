@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+    PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+    <settings>
+		<setting name="mapUnderscoreToCamelCase" value="true" />
+		<setting name="lazyLoadingEnabled" value="true"/>
+		<setting name="aggressiveLazyLoading" value="false"/>  <!-- 按需加载对象 -->
+	</settings>
+
+	<!-- 配置分页插件 -->
+	<!--<plugins>-->
+		<!--<plugin interceptor="com.github.pagehelper.PageHelper">-->
+			<!--&lt;!&ndash; 设置数据库类型 Oracle,Mysql,MariaDB,SQLite,Hsqldb,PostgreSQL六种数据库&ndash;&gt;-->
+			<!--<property name="dialect" value="mysql"/>-->
+			<!--&lt;!&ndash;<property name="dialect" value="oracle"/>&ndash;&gt;-->
+		<!--</plugin>-->
+	<!--</plugins>-->
+</configuration>

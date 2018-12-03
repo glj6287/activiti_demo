@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.hywingroup.com">
+  <process id="hygjBusinessEasy" name="hygjBusinessEasy" isExecutable="true">
+    <documentation>高金简化流程</documentation>
+    <startEvent id="startevent1" name="Start"></startEvent>
+    <userTask id="hygjCreditUsertask" name="高金信审" activiti:candidateGroups="hygjCreditGroup" activiti:formKey="hygjCreditFormKey">
+      <documentation>高金信审</documentation>
+    </userTask>
+    <sequenceFlow id="flow1" sourceRef="startevent1" targetRef="hygjCreditUsertask"></sequenceFlow>
+    <exclusiveGateway id="exclusivegateway1" name="Exclusive Gateway"></exclusiveGateway>
+    <sequenceFlow id="flow2" sourceRef="hygjCreditUsertask" targetRef="exclusivegateway1"></sequenceFlow>
+    <userTask id="humanLoanUsertask" name="人工放款" activiti:candidateGroups="financeCommonGroup" activiti:formKey="humanLoanFormKey">
+      <documentation>人工放款</documentation>
+    </userTask>
+    <sequenceFlow id="flow3" name="审核通过" sourceRef="exclusivegateway1" targetRef="humanLoanUsertask">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${status=='T'}]]></conditionExpression>
+    </sequenceFlow>
+    <userTask id="loanpendingUsertask" name="还款中" activiti:assignee="sys">
+      <documentation>还款中</documentation>
+    </userTask>
+    <sequenceFlow id="flow4" sourceRef="humanLoanUsertask" targetRef="loanpendingUsertask"></sequenceFlow>
+    <userTask id="hygjPledgeThawUsertask" name="高金质押解冻" activiti:candidateGroups="hygjCreditGroup" activiti:formKey="hygjPledgeThawFormKey">
+      <documentation>高金质押解冻</documentation>
+    </userTask>
+    <sequenceFlow id="flow5" sourceRef="loanpendingUsertask" targetRef="hygjPledgeThawUsertask"></sequenceFlow>
+    <endEvent id="endevent1" name="End"></endEvent>
+    <sequenceFlow id="flow6" sourceRef="hygjPledgeThawUsertask" targetRef="endevent1"></sequenceFlow>
+    <sequenceFlow id="flow7" name="审核不通过" sourceRef="exclusivegateway1" targetRef="endevent1">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${status=='F'}]]></conditionExpression>
+    </sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_hygjBusinessEasy">
+    <bpmndi:BPMNPlane bpmnElement="hygjBusinessEasy" id="BPMNPlane_hygjBusinessEasy">
+      <bpmndi:BPMNShape bpmnElement="startevent1" id="BPMNShape_startevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="15.0" y="250.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="hygjCreditUsertask" id="BPMNShape_hygjCreditUsertask">
+        <omgdc:Bounds height="55.0" width="105.0" x="101.0" y="240.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway1" id="BPMNShape_exclusivegateway1">
+        <omgdc:Bounds height="40.0" width="40.0" x="271.0" y="247.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="humanLoanUsertask" id="BPMNShape_humanLoanUsertask">
+        <omgdc:Bounds height="55.0" width="105.0" x="411.0" y="240.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="loanpendingUsertask" id="BPMNShape_loanpendingUsertask">
+        <omgdc:Bounds height="55.0" width="105.0" x="613.0" y="240.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="hygjPledgeThawUsertask" id="BPMNShape_hygjPledgeThawUsertask">
+        <omgdc:Bounds height="55.0" width="105.0" x="811.0" y="240.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endevent1" id="BPMNShape_endevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="981.0" y="250.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="flow1" id="BPMNEdge_flow1">
+        <omgdi:waypoint x="50.0" y="267.0"></omgdi:waypoint>
+        <omgdi:waypoint x="101.0" y="267.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow2" id="BPMNEdge_flow2">
+        <omgdi:waypoint x="206.0" y="267.0"></omgdi:waypoint>
+        <omgdi:waypoint x="271.0" y="267.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow3" id="BPMNEdge_flow3">
+        <omgdi:waypoint x="311.0" y="267.0"></omgdi:waypoint>
+        <omgdi:waypoint x="411.0" y="267.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="18.0" width="64.0" x="330.0" y="240.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow4" id="BPMNEdge_flow4">
+        <omgdi:waypoint x="516.0" y="267.0"></omgdi:waypoint>
+        <omgdi:waypoint x="613.0" y="267.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow5" id="BPMNEdge_flow5">
+        <omgdi:waypoint x="718.0" y="267.0"></omgdi:waypoint>
+        <omgdi:waypoint x="811.0" y="267.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow6" id="BPMNEdge_flow6">
+        <omgdi:waypoint x="916.0" y="267.0"></omgdi:waypoint>
+        <omgdi:waypoint x="981.0" y="267.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow7" id="BPMNEdge_flow7">
+        <omgdi:waypoint x="291.0" y="247.0"></omgdi:waypoint>
+        <omgdi:waypoint x="291.0" y="147.0"></omgdi:waypoint>
+        <omgdi:waypoint x="895.0" y="147.0"></omgdi:waypoint>
+        <omgdi:waypoint x="998.0" y="147.0"></omgdi:waypoint>
+        <omgdi:waypoint x="998.0" y="250.0"></omgdi:waypoint>
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds height="18.0" width="80.0" x="626.0" y="118.0"></omgdc:Bounds>
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>
